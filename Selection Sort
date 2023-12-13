@@ -9,6 +9,7 @@ void selectionSort(int a[], int size){
                 min = j;
             }
         }
+        //swap(a[min], a[i]);
         if(min != i){
             int temp = a[min];
             a[min] = a[i];
