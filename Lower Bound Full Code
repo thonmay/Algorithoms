@@ -1,0 +1,33 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int lowerBound(vector<int>& v, int target){
+    //sorting is a pre-requisite of BS
+    int low = 0, high = v.size() -1, mid;               //defining search space
+    
+
+    while(low <= high){                         //at some point low and high both might point to the same num
+        
+        mid = low+(high - low)/2;           // to avoid Int OVErFLOW for large nums
+
+        if(v[mid] == target)
+            return mid;
+        if(target > v[mid])
+            low = mid +1;
+        else    
+            high = mid-1;
+    }
+    if(target < v[mid])
+        return mid;
+    else    
+        return (mid+1);
+}
+
+int main(){
+    vector<int> v{2, 7, 13, 16, 33, 44};
+    int targetVal;
+    cin>>targetVal;
+
+    int a = lowerBound(v, targetVal);
+    cout<<"At index: "<<a <<" "<<"lower bound: "<< v[a];
+}
