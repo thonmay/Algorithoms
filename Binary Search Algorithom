@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int binarySearch(vector<int>&v, int target){
+    sort(v.begin(), v.end());      //sorting is a pre-requisite of BS
+    int low = 0, high = v.size() -1;               //defining search space
+    
+
+    while(low <= high){                         //at some point low and high both might point to the same num
+        
+        int mid = low+(high - low)/2;           // to avoid Int OVErFLOW for large nums
+
+        if(v[mid] == target)
+            return mid;
+        else if(target > v[mid])
+            low = mid +1;
+        else    
+            high = mid-1;
+    }
+    cout<<"NOT found!";
+    return -1;
+}
+
+int main(){
+    vector<int> v{2, 7, 33, 44, 49, 99};
+    int targetVal;
+    cin>>targetVal;
+
+    int index = binarySearch(v, targetVal);
+
+    if (index != -1) {
+        cout << "Target found at index: " << index << endl;
+    } else {
+        cout << "Target not found." << endl;
+    }
+}
