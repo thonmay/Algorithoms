@@ -1,0 +1,90 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Node {
+public:
+    int value;
+    Node* left;
+    Node* right;
+
+    Node() {
+        value = 0;
+        left = nullptr;
+        right = nullptr;
+    }
+
+    Node* createNode(int data) {
+        Node* newNode = new Node();
+        newNode->value = data;
+        newNode->left = newNode->right = nullptr;
+        return newNode;
+    }
+
+    void printTreePreOrder(Node* root){
+        //1. base condition
+        if(root == nullptr) return;
+        //2. print Data
+        cout<<root->value<<" ";
+        //3. Recusrive call for Left 
+        printTreePreOrder(root -> left);
+        //4. Recursive call for Right
+        printTreePreOrder(root -> right);
+    }
+
+    void printTreeInOrder(Node* root){
+        //1. base condition
+        if(root == nullptr) return;
+        //2. Recusrive call for Left 
+        printTreePreOrder(root -> left);
+        //3. print Data
+        cout<<root->value<<" ";
+        //4. Recursive call for Right
+        printTreePreOrder(root -> right);
+    }
+    
+    void printTreePostOrder(Node* root){
+        //1. base condition
+        if(root == nullptr) return;
+        //2. Recusrive call for Left 
+        printTreePreOrder(root -> left);
+        //3. Recursive call for Right
+        printTreePreOrder(root -> right);
+        //4. print Data
+        cout<<root->value<<" ";
+    }
+};
+
+int main() {
+    Node myNode;
+
+    Node* root = myNode.createNode(1);
+
+    root->left = myNode.createNode(2);
+    root->right = myNode.createNode(3);
+
+    root->left->left = myNode.createNode(4);
+    root->left->right = myNode.createNode(5);
+    root->right->left = myNode.createNode(6);
+    root->right->right = myNode.createNode(7);
+
+    root->left->left->right = myNode.createNode(8);
+
+    cout << "Printing nodes in pre-order: ";
+    myNode.printTreePreOrder(root);
+    cout << endl;
+
+    cout << "Printing nodes in in-order: ";
+    myNode.printTreeInOrder(root);
+    cout << endl;
+
+    cout << "Printing nodes in Post-order: ";
+    myNode.printTreePostOrder(root);
+    cout << endl;
+
+
+    // No need to delete root in this context
+
+    return 0;
+}
+
