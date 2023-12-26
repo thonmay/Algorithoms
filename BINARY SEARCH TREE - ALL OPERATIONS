@@ -1,0 +1,205 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+class Node{
+public:
+    int val;                            //Node attributes
+    Node* left;                            
+    Node* right;
+
+    Node(){                                       //default constructor(initialization)
+        val = 0;
+        left = right = nullptr;
+    }
+    Node(int value){
+        val = value;                            //parametarised constructor
+        left = right = nullptr;
+    }
+
+
+};
+              //Time complexity --> O(log(n))
+
+Node* insertInBST(Node* &root, int data){       //if we don't pass by &(Reference), root val won't change in main
+    if(root == nullptr){
+        return root = new Node(data);
+    }
+    if(data < root->val){
+        root->left = insertInBST(root->left, data);
+    }
+    else{
+        root->right = insertInBST(root->right, data);
+    }
+    return root;
+}
+
+void takeInput(Node* &root){
+    int data;
+    cin>>data;
+    
+    while(data != -1){
+        insertInBST(root, data);
+        cin>> data;
+    }
+}
+void printTreeInOrder(Node* &root){              //if we don't pass by &(Reference), root val won't change in main
+        //1. base condition
+        if(root == nullptr) return;
+        //2. Recusrive call for Left 
+        printTreeInOrder(root -> left);
+        //3. print Data
+        cout<<root->val<<" ";
+        //4. Recursive call for Right
+        printTreeInOrder(root -> right);
+    }
+
+bool isPresent(Node* root, int data){
+    //base case
+    if(root == nullptr) return false;  
+    if(root->val == data) return true;
+    if(data < root->val)
+        isPresent(root->left, data);             //on Left sub-tree
+    else
+        isPresent(root->right, data);            // on Right sub-tree
+}
+
+int minValBST(Node* root){
+    if (root == nullptr) {
+        // Handle the case when the tree is empty
+        cout << "BST is empty." << endl;
+        return -1;  // Or any other appropriate value or signal
+    }
+
+    Node* temp = root;
+    while(temp->left != nullptr){            //until it reaches the end
+        temp = temp->left;                   //keep moving LEFT
+    }
+    return (temp->val);                        //return temp, which is storing the min value
+
+}
+
+int maxValBST(Node* root){
+    if(root == nullptr){                       //In case, the tree is empty
+        return -1;
+    }
+    Node* temp = root;
+    while(temp->right != nullptr){              //until temp reaches the rightmost node
+        temp = temp->right;                     //keep moving to RIGHT
+    }
+    return temp->val;                           //temp is storing the max val, return it
+}
+
+Node* inorderPredecessor(Node* root, int data){
+    Node* predecessor = nullptr;
+    //traverse
+    while(root != nullptr){
+        if(data <= root->val){           
+            root = root->left;
+        }
+        else{
+            predecessor = root;
+            root = root->right;
+        }
+
+    }
+    return predecessor;    
+}
+
+Node* inorderSuccesor(Node* root, int data){
+    Node* succesor = nullptr;
+
+    while(root != nullptr){
+        if(data >= root->val){
+            root = root->right;
+        }
+        else{
+            succesor = root;
+            root = root->left;
+        }
+    }
+    return succesor;
+}
+
+Node* deleteNodeFromBST(Node* root, int data){
+    if(root == nullptr)
+        return root;
+    
+    if(root->val == data){
+        //0 child
+        if(root->right == nullptr && root->left == nullptr){
+            delete root;
+            return nullptr;
+        }
+
+        //1 child
+            //Left child
+        if(root->left != nullptr && root->right == nullptr){
+            Node* temp = root->left;
+            delete root;
+            return temp;
+        }
+
+            //Right child
+        if(root->right != nullptr && root->left == nullptr){
+            Node* temp = root->right;
+            delete root;
+            return temp;
+        }
+
+        //2 child
+        if(root->right != nullptr && root->left != nullptr){
+            int min = minValBST(root->right);
+            root->val = min;
+            root->right = deleteNodeFromBST(root->right, min);
+            return root;
+        }
+        
+
+    }
+
+    if(data < root->val){
+        root->left = deleteNodeFromBST(root->left, data);
+    }
+
+    if(data > root->val){
+        root->right = deleteNodeFromBST(root->right, data);
+    }
+}
+
+int main(){
+    Node* root = nullptr;              //creating root node
+
+    cout<<"Enter numbers for BST: ";
+    takeInput(root);
+    cout<<"Printing BEFORE deletion BST: \n";
+    printTreeInOrder(root);
+
+    cout<<"\nSearching for a number in BST: \n";
+    cout<< (isPresent(root, 13) ? "Found:)" : "Not found") << endl;
+
+    cout<<"Minimum value in BST: "<<minValBST(root) << endl;
+
+    cout<<"Maximum value in BST: "<<maxValBST(root) << endl;
+
+    cout<<"Inorder predecessor: " << inorderPredecessor(root, 15)->val << endl;
+
+    cout<<"Inorder successor: " << inorderSuccesor(root, 8)->val << endl;
+
+    root = deleteNodeFromBST(root, 55);
+
+    cout<<"\nPrinting AFTER DELETION BST: \n";
+    printTreeInOrder(root);
+    
+
+    root = deleteNodeFromBST(root, 30);
+
+    cout<<"\nPrinting AFTER DELETION BST: \n";
+    printTreeInOrder(root);
+
+
+    if(root== nullptr){
+        cout<<"NULL";
+    }
+
+
+}
