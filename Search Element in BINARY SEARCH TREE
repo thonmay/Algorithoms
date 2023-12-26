@@ -1,0 +1,43 @@
+
+//Recursive Method
+int searchInBST(Node* root, int num){
+        if(root == nullptr){
+            cout<<"Not present:) ";
+            return 0;
+        }
+
+        if(root != nullptr){                                //when root is different than NULL; 3 cases possible
+            if(root->value == num){                         //1. Roots equals to num; return root.val
+                cout<<"It's found: ";    
+                return root->value;
+            }
+            if(num < root->value){                          //2. Num is less than Root val; search left sub-tree
+                searchInBST(root->left , num);
+            }
+            else
+                searchInBST(root->right, num);               //3. Otherwise, search right sub-tree
+        }
+        else{
+            cout<<"Not present in the BST!!!";
+            return 0;
+        }
+            
+    }
+//Iterative Method
+int searchIterative(Node* root, int num){
+        if(root == nullptr){
+            cout<<"Not present:)\n"; return 0;
+        }
+        while(root != nullptr){                                 //when ROOT isn't NULL; 3 cases possible
+            if(root->value == num){
+                cout<<"It's found: "; return root->value;      //1. If Root val = Num ; return root.val
+            }
+            if(num < root->value){                             //2. Num < root val ; seach in the left sub-tree
+                root = root->left;
+            }
+            else    
+                root = root->right;                            //3. Otherwise, search in the right sub-tree
+        }
+        cout<<"Not present:) ";
+        return 0;
+    }
