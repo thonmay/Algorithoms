@@ -1,0 +1,30 @@
+void levelOrderTraversal(Node* root){
+    if(root == nullptr) return;
+    queue<Node*> q{};               //to store the nodes in level order
+    q.push(root);                   //initially we gonna push root and Null
+    q.push(nullptr);
+
+    while(!q.empty()){              
+        Node* temp = q.front();     //store the front node in temp node
+        q.pop();                    //then, pop it
+
+        if(temp == nullptr){             //when it's Null, add EL and if the q!empty, add another EL
+            cout<<endl;                 //firstly, add an Endline
+            if(!q.empty()){             //check if the queue if empty or not
+                q.push(nullptr);        //if NOT, then add another Endline in the queue
+            }
+        }
+        if(temp != nullptr){        //when temp isn't null, print val and push it's LC & RC
+            cout<<temp->val<< " ";        //firstly, print it's val
+
+            if(temp->left != nullptr){  //then, check it's right child
+                q.push(temp->left);     //if not Null, add it in the queue
+            }
+            if(temp->right != nullptr){   //then, check it's left child
+                q.push(temp->right);      //if not Null, add it in the queue
+            }
+        }
+    }
+        
+        
+}
